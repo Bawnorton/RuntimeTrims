@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 //? if fabric
-import net.fabricmc.fabric.impl.client.rendering.FabricShaderProgram;
+/*import net.fabricmc.fabric.impl.client.rendering.FabricShaderProgram;*/
 
 @Mixin(GameRenderer.class)
 public abstract class GameRendererMixin {
@@ -31,10 +31,10 @@ public abstract class GameRendererMixin {
         shaders.add(
                 Pair.of(
                         //? if fabric {
-                        new FabricShaderProgram(
-                        //?} elif neoforge {
-                        /*new ShaderProgram(
-                        *///?}
+                        /*new FabricShaderProgram(
+                        *///?} elif neoforge {
+                        new ShaderProgram(
+                        //?}
                                 factory,
                                 RuntimeTrims.id("rendertype_dynamic_trim"),
                                 VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL

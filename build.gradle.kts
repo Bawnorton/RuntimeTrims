@@ -13,7 +13,6 @@ plugins {
 val mod = ModData(project)
 val loader = LoaderData(project, loom.platform.get().name.lowercase())
 val minecraftVersion = MinecraftVersionData(stonecutter)
-val awName = "$minecraftVersion.accesswidener"
 
 version = "${mod.version}-$loader+$minecraftVersion"
 group = mod.group
@@ -42,8 +41,6 @@ dependencies {
 }
 
 loom {
-    accessWidenerPath.set(rootProject.file("src/main/resources/$awName"))
-
     runConfigs.all {
         ideConfigGenerated(true)
         runDir = "../../run"
@@ -134,7 +131,6 @@ loader.fabric {
         modCompileOnly("maven.modrinth:female-gender:${property("wildfire_gender")}")
         modCompileOnly("maven.modrinth:bclib:${property("bclib")}")
     }
-
 }
 
 loader.neoforge {
@@ -147,12 +143,6 @@ loader.neoforge {
 
         compileOnly(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:${property("mixin_squared")}")!!)
         implementation(include("com.github.bawnorton.mixinsquared:mixinsquared-forge:${property("mixin_squared")}")!!)
-    }
-
-    tasks {
-        remapJar {
-            atAccessWideners.add("$minecraftVersion.accesswidener")
-        }
     }
 }
 

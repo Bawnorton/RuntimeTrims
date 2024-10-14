@@ -1,8 +1,7 @@
 package com.bawnorton.runtimetrims;
 
 import com.bawnorton.runtimetrims.registry.TrimMaterialRegistryInjector;
-import com.bawnorton.runtimetrims.tag.TrimMaterialTagInjector;
-import com.bawnorton.runtimetrims.tag.TrimmableArmourTagInjector;
+import com.bawnorton.runtimetrims.tag.TrimTagInjector;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +13,7 @@ public final class RuntimeTrims {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     private static final TrimMaterialRegistryInjector trimMaterialRegistryInjector = new TrimMaterialRegistryInjector();
-    private static final TrimMaterialTagInjector trimMaterialTagInjector = new TrimMaterialTagInjector();
-    private static final TrimmableArmourTagInjector trimmableArmourTagInjector = new TrimmableArmourTagInjector();
+    private static final TrimTagInjector trimTagInjector = new TrimTagInjector();
 
     public static void init() {
         LOGGER.debug("{} Initialized", MOD_ID);
@@ -29,11 +27,7 @@ public final class RuntimeTrims {
         return trimMaterialRegistryInjector;
     }
 
-    public static TrimMaterialTagInjector getTrimMaterialTagInjector() {
-        return trimMaterialTagInjector;
-    }
-
-    public static TrimmableArmourTagInjector getTrimmableArmourTagInjector() {
-        return trimmableArmourTagInjector;
+    public static TrimTagInjector getTrimTagInjector() {
+        return trimTagInjector;
     }
 }

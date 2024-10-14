@@ -1,6 +1,7 @@
 package com.bawnorton.runtimetrims.client;
 
 import com.bawnorton.configurable.Configurable;
+import com.bawnorton.configurable.ControllerType;
 import com.bawnorton.configurable.OptionType;
 import com.bawnorton.configurable.Yacl;
 import com.bawnorton.runtimetrims.RuntimeTrims;
@@ -38,8 +39,8 @@ public final class RuntimeTrimsClient {
     public static PaletteSorting paletteSorting = PaletteSorting.COLOUR;
     @Configurable(yacl = @Yacl(listener = "clearAnimationCache"))
     public static boolean animate = false;
-    @Configurable
-    public static int ticksBetweenCycles = 75;
+    @Configurable(min = 0, max = 1000, yacl = @Yacl(listener = "clearRenderLayerCache", controller = ControllerType.FLOAT_FIELD))
+    public static float msBetweenCycles = 75;
 
     public static void init() {
         itemModelLoader.setDefaultAdapter(new DefaultTrimModelLoaderAdapter());
@@ -111,14 +112,18 @@ public final class RuntimeTrimsClient {
 
     public static void clearPaletteCache(PaletteSorting paletteSorting) {
         getTrimPalettes().regenerate();
-        getShaderManager().clearRenderLayerCaches();
+        clearRenderLayerCache(msBetweenCycles);
     }
 
     public static void clearAnimationCache(boolean animate) {
-        getShaderManager().clearRenderLayerCaches();
+        clearRenderLayerCache(msBetweenCycles);
         if (!animate) {
             getTrimPalettes().forEach(TrimPalette::computeColourArr);
         }
+    }
+
+    public static void clearRenderLayerCache(float msBetweenCycles) {
+        getShaderManager().clearRenderLayerCaches();
     }
 
     public static Text enumFormatter(Enum<?> e) {

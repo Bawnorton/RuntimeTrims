@@ -1,6 +1,8 @@
 package com.bawnorton.runtimetrims.util;
 
 import org.apache.commons.lang3.Validate;
+import org.spongepowered.include.com.google.common.collect.ImmutableList;
+import java.util.List;
 
 public abstract class DefaultedAdaptable<K, T> extends Adaptable<K, T> {
     private T defaultAdapter;
@@ -21,5 +23,10 @@ public abstract class DefaultedAdaptable<K, T> extends Adaptable<K, T> {
             return defaultAdapter;
         }
         return adapter;
+    }
+
+    @Override
+    protected List<T> getAdapters() {
+        return ImmutableList.<T>builder().addAll(super.getAdapters()).add(defaultAdapter).build();
     }
 }

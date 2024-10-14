@@ -5,6 +5,7 @@ import com.bawnorton.runtimetrims.client.colour.ColourInterpolation;
 import com.bawnorton.runtimetrims.client.colour.OkLabHelper;
 import com.google.common.collect.Lists;
 import javax.imageio.ImageIO;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.ColorHelper;
 import java.awt.image.BufferedImage;
@@ -97,15 +98,18 @@ public final class TrimPalette {
     }
 
     public void cycleAnimatedColours() {
-        if ((System.currentTimeMillis() - lastCycle) <= RuntimeTrimsClient.ticksBetweenCycles / 2) return;
+        long now = System.currentTimeMillis();
+        long delta = now - lastCycle;
+        float millisPerCylce = RuntimeTrimsClient.msBetweenCycles;
+        if (delta < millisPerCylce) return;
 
+        lastCycle = now;
         int last = animatedColours.getLast();
         for (int i = animatedColours.size() - 1; i > 0; i--) {
             animatedColours.set(i, animatedColours.get(i - 1));
         }
         animatedColours.set(0, last);
         computeColourArr();
-        lastCycle = System.currentTimeMillis();
     }
 
     @Override
