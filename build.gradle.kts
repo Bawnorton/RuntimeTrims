@@ -7,12 +7,13 @@ plugins {
     id("dev.architectury.loom") version "1.7-SNAPSHOT"
     id("architectury-plugin") version "3.4-SNAPSHOT"
     id("me.modmuss50.mod-publish-plugin") version "0.5.+"
+    id("dev.kikugie.j52j") version "1.0.2"
 }
 
 val mod = ModData(project)
 val loader = LoaderData(project, loom.platform.get().name.lowercase())
 val minecraftVersion = MinecraftVersionData(stonecutter)
-val awName = "${mod.id}.accesswidener"
+val awName = "$minecraftVersion.accesswidener"
 
 version = "${mod.version}-$loader+$minecraftVersion"
 group = mod.group
@@ -24,10 +25,20 @@ repositories {
     maven("https://maven.bawnorton.com/releases/")
     maven("https://maven.shedaniel.me")
     maven("https://jitpack.io")
+    maven("https://api.modrinth.com/maven")
 }
 
 dependencies {
     minecraft("com.mojang:minecraft:$minecraftVersion")
+
+    modImplementation("dev.isxander:yet-another-config-lib:${property("yacl")}+$minecraftVersion-$loader")
+    annotationProcessor(modImplementation("com.bawnorton.configurable:configurable-$loader-yarn:${property("configurable")}") { isTransitive = false })
+
+    modImplementation("maven.modrinth:iris:${property("iris")}")
+    modImplementation("maven.modrinth:sodium:${property("sodium")}")
+    modRuntimeOnly("org.antlr:antlr4-runtime:4.13.1")
+    modRuntimeOnly("io.github.douira:glsl-transformer:2.0.1")
+    modRuntimeOnly("org.anarres:jcpp:1.4.14")
 }
 
 loom {
@@ -58,14 +69,6 @@ loom {
             }
         }
     }
-
-    sourceSets {
-        main {
-            resources {
-                srcDir(project.file("src/main/generated"))
-            }
-        }
-    }
 }
 
 tasks {
@@ -87,8 +90,11 @@ tasks {
         filesMatching("META-INF/neoforge.mods.toml") { expand(modMetadata) }
     }
 
-    jar {
-        dependsOn("copyDatagen")
+    processResources {
+        val refmap = "refmap" to "${mod.name}-$minecraftVersion-$loader-refmap.json"
+        inputs.properties(refmap)
+
+        filesMatching("runtimetrims-compat.mixins.json5") { expand(refmap) }
     }
 
     withType<AbstractCopyTask> {
@@ -118,21 +124,17 @@ loader.fabric {
     dependencies {
         mappings("net.fabricmc:yarn:$minecraftVersion+build.${property("yarn_build")}:v2")
         modImplementation("net.fabricmc:fabric-loader:${loader.getVersion()}")
+        modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api")}+$minecraftVersion")
+
+        include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:${property("mixin_squared")}")!!)!!)
+
+        modImplementation("com.terraformersmc:modmenu:${property("mod_menu")}")
+
+        modCompileOnly("maven.modrinth:show-me-your-skin:${property("show_me_your_skin")}")
+        modCompileOnly("maven.modrinth:female-gender:${property("wildfire_gender")}")
+        modCompileOnly("maven.modrinth:bclib:${property("bclib")}")
     }
 
-    fabricApi {
-        configureDataGeneration {
-            modId = mod.id
-        }
-    }
-
-    tasks {
-        register<Copy>("copyDatagen") {
-            from("src/main/generated")
-            into("${layout.buildDirectory.get()}/resources/main")
-            dependsOn("runDatagen")
-        }
-    }
 }
 
 loader.neoforge {
@@ -142,16 +144,14 @@ loader.neoforge {
             mappings("dev.architectury:yarn-mappings-patch-neoforge:1.21+build.4")
         })
         neoForge("net.neoforged:neoforge:${loader.getVersion()}")
+
+        compileOnly(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:${property("mixin_squared")}")!!)
+        implementation(include("com.github.bawnorton.mixinsquared:mixinsquared-forge:${property("mixin_squared")}")!!)
     }
 
     tasks {
         remapJar {
             atAccessWideners.add("$minecraftVersion.accesswidener")
-        }
-
-        register<Copy>("copyDatagen") {
-            from(rootProject.file("versions/${minecraftVersion}-fabric/src/main/generated"))
-            into("${layout.buildDirectory.get()}/resources/main")
         }
     }
 }

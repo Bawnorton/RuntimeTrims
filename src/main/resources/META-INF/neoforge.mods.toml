@@ -1,25 +1,25 @@
 modLoader = "javafml"
 loaderVersion = "${loader_version}"
-issueTrackerURL = "https://github.com/Bawnorton/${mod_name}/issues"
+issueTrackerURL = "https://github.com/Bawnorton/RuntimeTrims/issues"
 license = "MIT"
 
 [[mods]]
-modId = "${mod_id}"
+modId = "runtimetrims"
 version = "${version}"
-displayName = "${mod_name}"
+displayName = "RuntimeTrims"
 authors = "Bawnorton"
 description = '''
 ${description}
 '''
-logoFile = "assets/${mod_id}/icon.png"
+logoFile = "assets/runtimetrims/icon.png"
 
 [[mixins]]
-config = "${mod_id}.mixins.json"
+config = "runtimetrims.mixins.json"
 
 [[mixins]]
-config = "${mod_id}-client.mixins.json"
+config = "runtimetrims-client.mixins.json"
 
-[[dependencies.${mod_id}]]
+[[dependencies.runtimetrims]]
 modId = "minecraft"
 type = "required"
 versionRange = "${minecraft_dependency}"

@@ -1,35 +1,37 @@
 {
   "schemaVersion": 1,
-  "id": "${mod_id}",
+  "id": "runtimetrims",
   "version": "${version}",
-  "name": "${mod_name}",
+  "name": "RuntimeTrims",
   "description": "${description}",
   "authors": [
     "Bawnorton"
   ],
   "contact": {
     "homepage": "https://github.com/Bawnorton",
-    "sources": "https://github.com/Bawnorton/${mod_name}",
-    "issues": "https://github.com/Bawnorton/${mod_name}/issues"
+    "sources": "https://github.com/Bawnorton/RuntimeTrims",
+    "issues": "https://github.com/Bawnorton/RuntimeTrims/issues"
   },
   "license": "MIT",
-  "icon": "assets/${mod_id}/icon.png",
+  "icon": "assets/runtimetrims/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.bawnorton.modid.platform.ModIdWrapper"
+      "com.bawnorton.runtimetrims.platform.RuntimeTrimsWrapper"
     ],
     "client": [
-      "com.bawnorton.modid.client.platform.ModIdClientWrapper"
+      "com.bawnorton.runtimetrims.client.platform.RuntimeTrimsClientWrapper"
     ]
   },
   "mixins": [
-    "${mod_id}.mixins.json",
+    "runtimetrims.mixins.json",
+    "runtimetrims-compat.mixins.json",
     {
-      "config": "${mod_id}-client.mixins.json",
+      "config": "runtimetrims-client.mixins.json",
       "environment": "client"
     }
   ],
+  "accessWidener": "1.21.accesswidener",
   "depends": {
     "fabricloader": ">=0.16.0",
     "minecraft": "${minecraft_dependency}",
@@ -39,7 +41,7 @@
   "custom": {
     "modmenu": {
       "links": {
-        "${mod_id}.website": "https://github.com/Bawnorton/${mod_name}"
+        "runtimetrims.website": "https://github.com/Bawnorton/RuntimeTrims"
       }
     }
   }

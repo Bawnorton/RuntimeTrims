@@ -1,0 +1,26 @@
+{
+  "required": true,
+  "package": "com.bawnorton.runtimetrims.client.mixin",
+  "minVersion": "0.8",
+  "mixins": [
+    "ArmorTrimMaterialMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "accessor.GlUniformAccessor",
+    "accessor.ItemColorsAccessor",
+    "accessor.JsonUnbakedModelAccessor",
+    "accessor.RenderPhaseAccessor",
+    "accessor.SpriteContentsAccessor",
+    "model.BakedModelManagerMixin",
+    "model.ItemModelGeneratorMixin",
+    "model.PalettedPermutationsAtlasSourceMixin",
+    "render.ArmorFeatureRendererMixin",
+    "render.MinecraftClientMixin",
+    "shader.GameRendererMixin",
+    "shader.RenderLayer$MultiPhaseParametersMixin",
+    "shader.ShaderProgramMixin"
+  ]
+}

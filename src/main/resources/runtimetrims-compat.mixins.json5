@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "com.bawnorton.runtimetrims.mixin.compat",
+  "plugin": "com.bawnorton.runtimetrims.mixin.compat.RuntimeTrimsCompatMixinPlugin",
+  "minVersion": "0.8",
+  "mixins": [
+    "modernfix.BakedModelManagerMixinSquared",
+    //? if fabric {
+    "fabric.bclib.CustomModelBakeryMixin",
+    "fabric.wildfiregender.GenderArmorLayerMixin"
+    //?}
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "refmap": "${refmap}"
+}

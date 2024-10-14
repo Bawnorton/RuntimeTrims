@@ -1,5 +1,4 @@
 import org.gradle.api.Project
-import org.gradle.api.tasks.TaskContainer
 
 class LoaderData(private val project: Project, private val name: String) {
     private val isFabric = name == "fabric"
@@ -15,11 +14,11 @@ class LoaderData(private val project: Project, private val name: String) {
         return name
     }
 
-    fun neoforge(container: () -> TaskContainer) {
+    fun neoforge(container: () -> Unit) {
         if(isNeoForge) container.invoke()
     }
 
-    fun fabric(container: () -> TaskContainer) {
+    fun fabric(container: () -> Unit) {
         if(isFabric) container.invoke()
     }
 }
