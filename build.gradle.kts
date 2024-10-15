@@ -209,8 +209,9 @@ publishMods {
         projectId = mod.modrinthProjId
         minecraftVersions.addAll(mod.supportedVersions)
 
-        requires {
-            slug = "configurable"
+        requires("configurable")
+        loader.fabric {
+            requires("fabric-api")
         }
     }
 
@@ -219,8 +220,9 @@ publishMods {
         projectId = mod.curseforgeProjId
         minecraftVersions.addAll(mod.supportedVersions)
 
-        requires {
-            slug = "configurable"
+        requires("configurable")
+        loader.fabric {
+            requires("fabric-api")
         }
     }
 }
