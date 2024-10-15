@@ -6,9 +6,9 @@
   "mixins": [
     "modernfix.BakedModelManagerMixinSquared",
     //? if fabric {
-    /*"fabric.bclib.CustomModelBakeryMixin",
+    "fabric.bclib.CustomModelBakeryMixin",
     "fabric.wildfiregender.GenderArmorLayerMixin"
-    *///?}
+    //?}
   ],
   "injectors": {
     "defaultRequire": 1

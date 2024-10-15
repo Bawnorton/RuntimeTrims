@@ -3,7 +3,7 @@ package com.bawnorton.runtimetrims.client.platform;
 import com.bawnorton.runtimetrims.client.RuntimeTrimsClient;
 
 //? if fabric {
-/*import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.api.ClientModInitializer;
 
 public final class RuntimeTrimsClientWrapper implements ClientModInitializer {
     @Override
@@ -11,8 +11,8 @@ public final class RuntimeTrimsClientWrapper implements ClientModInitializer {
         RuntimeTrimsClient.init();
     }
 }
-*///?} elif neoforge {
-import com.bawnorton.runtimetrims.RuntimeTrims;
+//?} elif neoforge {
+/*import com.bawnorton.runtimetrims.RuntimeTrims;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.Mod;
 
@@ -22,4 +22,4 @@ public final class RuntimeTrimsClientWrapper {
         RuntimeTrimsClient.init();
     }
 }
-//?}
+*///?}

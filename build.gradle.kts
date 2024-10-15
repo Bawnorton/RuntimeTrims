@@ -13,6 +13,7 @@ plugins {
 val mod = ModData(project)
 val loader = LoaderData(project, loom.platform.get().name.lowercase())
 val minecraftVersion = MinecraftVersionData(stonecutter)
+val aw = "$minecraftVersion.accesswidener"
 
 version = "${mod.version}-$loader+$minecraftVersion"
 group = mod.group
@@ -41,6 +42,8 @@ dependencies {
 }
 
 loom {
+    accessWidenerPath.set(rootProject.file("src/main/resources/$aw"))
+
     runConfigs.all {
         ideConfigGenerated(true)
         runDir = "../../run"
@@ -75,6 +78,7 @@ tasks {
 
     processResources {
         val modMetadata = mapOf(
+            "aw" to aw,
             "description" to mod.description,
             "version" to mod.version,
             "minecraft_dependency" to mod.minecraftDependency,
@@ -131,6 +135,12 @@ loader.fabric {
         modCompileOnly("maven.modrinth:female-gender:${property("wildfire_gender")}")
         modCompileOnly("maven.modrinth:bclib:${property("bclib")}")
     }
+
+    tasks {
+        processResources {
+            exclude("**/neoforge.mods.toml")
+        }
+    }
 }
 
 loader.neoforge {
@@ -143,6 +153,16 @@ loader.neoforge {
 
         compileOnly(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:${property("mixin_squared")}")!!)
         implementation(include("com.github.bawnorton.mixinsquared:mixinsquared-forge:${property("mixin_squared")}")!!)
+    }
+
+    tasks {
+        remapJar {
+            atAccessWideners.add(aw)
+        }
+
+        processResources {
+            exclude("**/fabric.mod.json")
+        }
     }
 }
 
@@ -188,11 +208,19 @@ publishMods {
         accessToken = providers.gradleProperty("MODRINTH_TOKEN")
         projectId = mod.modrinthProjId
         minecraftVersions.addAll(mod.supportedVersions)
+
+        requires {
+            slug = "configurable"
+        }
     }
 
     curseforge {
         accessToken = providers.gradleProperty("CURSEFORGE_TOKEN")
         projectId = mod.curseforgeProjId
         minecraftVersions.addAll(mod.supportedVersions)
+
+        requires {
+            slug = "configurable"
+        }
     }
 }

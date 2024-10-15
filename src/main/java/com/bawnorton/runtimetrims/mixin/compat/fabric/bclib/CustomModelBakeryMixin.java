@@ -2,7 +2,7 @@ package com.bawnorton.runtimetrims.mixin.compat.fabric.bclib;
 
 //? if fabric {
 
-/*import com.bawnorton.runtimetrims.RuntimeTrims;
+import com.bawnorton.runtimetrims.RuntimeTrims;
 import com.bawnorton.runtimetrims.client.RuntimeTrimsClient;
 import com.bawnorton.runtimetrims.client.mixin.accessor.JsonUnbakedModelAccessor;
 import com.bawnorton.runtimetrims.client.model.item.JsonParser;
@@ -89,4 +89,4 @@ public abstract class CustomModelBakeryMixin {
     }
 }
 
-*///?}
+//?}

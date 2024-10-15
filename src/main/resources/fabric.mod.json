@@ -23,6 +23,7 @@
       "com.bawnorton.runtimetrims.client.platform.RuntimeTrimsClientWrapper"
     ]
   },
+  "accessWidener": "${aw}",
   "mixins": [
     "runtimetrims.mixins.json",
     "runtimetrims-compat.mixins.json",
@@ -35,7 +36,8 @@
     "fabricloader": ">=0.16.0",
     "minecraft": "${minecraft_dependency}",
     "java": ">=21",
-    "fabric-api": "*"
+    "fabric-api": "*",
+    "configurable": ">=2.0.3"
   },
   "custom": {
     "modmenu": {

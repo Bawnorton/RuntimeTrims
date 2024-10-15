@@ -7,6 +7,7 @@ import com.bawnorton.configurable.Yacl;
 import com.bawnorton.runtimetrims.RuntimeTrims;
 import com.bawnorton.runtimetrims.client.compat.Compat;
 import com.bawnorton.runtimetrims.client.model.armour.ArmourTrimModelLoader;
+import com.bawnorton.runtimetrims.client.model.item.GroupPermutationsAtlasSource;
 import com.bawnorton.runtimetrims.client.model.item.ItemTrimModelLoader;
 import com.bawnorton.runtimetrims.client.model.item.adapter.DefaultTrimModelLoaderAdapter;
 import com.bawnorton.runtimetrims.client.palette.TrimPalette;
@@ -43,6 +44,7 @@ public final class RuntimeTrimsClient {
     public static float msBetweenCycles = 75;
 
     public static void init() {
+        GroupPermutationsAtlasSource.init();
         itemModelLoader.setDefaultAdapter(new DefaultTrimModelLoaderAdapter());
 
         if(Compat.getShowMeYourSkinCompat().isPresent()) {

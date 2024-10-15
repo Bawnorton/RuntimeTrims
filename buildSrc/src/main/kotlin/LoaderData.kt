@@ -21,4 +21,8 @@ class LoaderData(private val project: Project, private val name: String) {
     fun fabric(container: () -> Unit) {
         if(isFabric) container.invoke()
     }
+
+    fun isFabric(): Boolean = isFabric
+
+    fun isNeoForge(): Boolean = isNeoForge
 }

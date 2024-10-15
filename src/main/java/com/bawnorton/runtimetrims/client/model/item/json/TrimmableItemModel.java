@@ -35,6 +35,15 @@ public final class TrimmableItemModel {
         overrides.add(override);
     }
 
+    public TrimmableItemModel copy() {
+        TrimmableItemModel newModel = new TrimmableItemModel(parent, overrides, textures);
+        newModel.credit = credit;
+        newModel.textureSize = textureSize;
+        newModel.display = display;
+        newModel.elements = elements;
+        return newModel;
+    }
+
     public static Builder builder() {
         return new Builder();
     }

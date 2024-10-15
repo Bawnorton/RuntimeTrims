@@ -1,5 +1,6 @@
 package com.bawnorton.runtimetrims.client.model.item;
 
+import com.bawnorton.runtimetrims.client.model.item.json.BlockAtlas;
 import com.bawnorton.runtimetrims.client.model.item.json.TextureLayers;
 import com.bawnorton.runtimetrims.client.model.item.json.serialisation.TextureLayersSerializer;
 import com.google.gson.FieldNamingPolicy;
@@ -11,6 +12,8 @@ import net.minecraft.resource.ResourcePack;
 import org.apache.commons.io.IOUtils;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 
 public final class JsonParser {
@@ -22,7 +25,7 @@ public final class JsonParser {
 
     public <T> T fromResource(Resource resource, Class<T> clazz) {
         try(BufferedReader reader = resource.getReader()) {
-            return GSON.fromJson(reader, clazz);
+            return fromReader(reader, clazz);
         } catch (IOException e) {
             return null;
         }
@@ -30,6 +33,10 @@ public final class JsonParser {
 
     public <T> T fromString(String json, Class<T> clazz) {
         return GSON.fromJson(json, clazz);
+    }
+
+    public <T> T fromReader(Reader original, Class<T> blockAtlasClass) {
+        return GSON.fromJson(original, blockAtlasClass);
     }
 
     public Resource toResource(ResourcePack resourcePack, Object object) {
@@ -42,5 +49,9 @@ public final class JsonParser {
 
     public JsonObject toJsonObject(Object object) {
         return GSON.toJsonTree(object).getAsJsonObject();
+    }
+
+    public BufferedReader toReader(Object object) {
+        return new BufferedReader(new StringReader(toJson(object)));
     }
 }

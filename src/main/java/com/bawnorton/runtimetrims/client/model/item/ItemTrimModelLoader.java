@@ -1,14 +1,12 @@
 package com.bawnorton.runtimetrims.client.model.item;
 
-import com.bawnorton.runtimetrims.RuntimeTrims;
-import com.bawnorton.runtimetrims.client.RuntimeTrimsClient;
 import com.bawnorton.runtimetrims.client.debug.Debugger;
 import com.bawnorton.runtimetrims.client.model.item.adapter.TrimModelLoaderAdapter;
+import com.bawnorton.runtimetrims.client.model.item.json.BlockAtlas;
 import com.bawnorton.runtimetrims.client.model.item.json.ModelOverride;
 import com.bawnorton.runtimetrims.client.model.item.json.TextureLayers;
 import com.bawnorton.runtimetrims.client.model.item.json.TrimmableItemModel;
 import com.bawnorton.runtimetrims.client.render.LayerData;
-import com.bawnorton.runtimetrims.util.Adaptable;
 import com.bawnorton.runtimetrims.util.ItemAdaptable;
 import com.google.gson.JsonObject;
 import net.minecraft.item.Item;
@@ -16,6 +14,7 @@ import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.resource.Resource;
 import net.minecraft.util.Identifier;
+import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -52,18 +51,9 @@ public final class ItemTrimModelLoader extends ItemAdaptable<TrimModelLoaderAdap
             if(itemModel.textures == null) itemModel.textures = TextureLayers.empty();
             if(itemModel.overrides == null) itemModel.overrides = new ArrayList<>();
 
-            Identifier modelId = trimmableResource.modelId().withSuffixedPath("_%s_trim".formatted(RuntimeTrims.DYNAMIC));
+            Map<Identifier, TrimmableItemModel> suppliedOverrides = getAdapter(trimmableResource.item()).supplyOverrides(jsonParser, itemModel, trimmableResource, this::createModelOverride);
 
-            if(RuntimeTrimsClient.overrideExisting) {
-                itemModel.overrides.forEach(modelOverride -> modelOverride.model = modelId.toString());
-            }
-
-            itemModel.addOverride(ModelOverride.builder()
-                    .withModel(modelId.toString())
-                    .withPredicate(jsonParser.toJsonObject(TrimModelPredicate.of(RuntimeTrims.MATERIAL_MODEL_INDEX)))
-                    .build());
-
-            itemModel.overrides.sort(Comparator.comparing(override -> {
+            itemModel.overrides.sort(Comparator.<ModelOverride, Float>comparing(override -> {
                 JsonObject predicate = override.predicate;
                 if(predicate.has("trim_type")) {
                     return predicate.get("trim_type").getAsFloat();
@@ -71,17 +61,25 @@ public final class ItemTrimModelLoader extends ItemAdaptable<TrimModelLoaderAdap
                     return predicate.get("minecraft:trim_type").getAsFloat();
                 }
                 return 0f;
+            }).thenComparing(override -> {
+                JsonObject predicate = override.predicate;
+                if (predicate.has("runtimetrims:trim_pattern")) {
+                    return predicate.get("runtimetrims:trim_pattern").getAsFloat();
+                }
+                return 0f;
             }));
 
             Resource newResource = jsonParser.toResource(trimmableResource.resource().getPack(), itemModel);
             extendedModels.put(trimmableResource.resourceId(), newResource);
 
-            Resource overrideResource = createModelOverride(itemModel, trimmableResource);
-            Identifier overrideResourceId = modelId.withPrefixedPath("models/").withSuffixedPath(".json");
-            extendedModels.put(overrideResourceId, overrideResource);
-
             Debugger.createJson("resources/%s".formatted(trimmableResource.resourceId()), newResource);
-            Debugger.createJson("resources/%s".formatted(overrideResourceId), overrideResource);
+            suppliedOverrides.forEach((modelId, override) -> {
+                Resource overrideResource = jsonParser.toResource(trimmableResource.resource().getPack(), override);
+                Identifier overrideResourceId = modelId.withPrefixedPath("models/").withSuffixedPath(".json");
+                extendedModels.put(overrideResourceId, overrideResource);
+
+                Debugger.createJson("resources/%s".formatted(overrideResourceId), overrideResource);
+            });
         }
         return extendedModels;
     }
@@ -111,8 +109,8 @@ public final class ItemTrimModelLoader extends ItemAdaptable<TrimModelLoaderAdap
         return trimmableResources;
     }
 
-    private Resource createModelOverride(TrimmableItemModel overriden, TrimmableResource trimmableResource) {
-        Map<String, String> layers = new HashMap<>(overriden.textures.layers);
+    private TrimmableItemModel createModelOverride(TrimmableItemModel overridenModel, TrimmableResource trimmableResource) {
+        Map<String, String> layers = new HashMap<>(overridenModel.textures.layers);
 
         int startLayer = layers.size();
         Item trimmable = trimmableResource.item();
@@ -124,11 +122,25 @@ public final class ItemTrimModelLoader extends ItemAdaptable<TrimModelLoaderAdap
         for(int i = 0; i < layerCount; i++) {
             layers.put("layer%s".formatted(i + startLayer), adapter.getLayerName(trimmable, i));
         }
-        TrimmableItemModel itemModel = TrimmableItemModel.builder()
-                .parent(overriden.parent)
+        return TrimmableItemModel.builder()
+                .parent(overridenModel.parent)
                 .textures(TextureLayers.of(layers))
                 .build();
+    }
 
-        return jsonParser.toResource(trimmableResource.resource().getPack(), itemModel);
+    public BufferedReader addGroupPermutationsToAtlasSources(BufferedReader original) {
+        BlockAtlas atlas = jsonParser.fromReader(original, BlockAtlas.class);
+        atlas.getPalettedPermutationsSource("trims/color_palettes/trim_palette").ifPresent(source -> atlas.addSource(
+                source.copy()
+                        .withType("runtimetrims:group_permutations")
+                        .withDirectories(List.of(
+                                "trims/items/helmet",
+                                "trims/items/chestplate",
+                                "trims/items/leggings",
+                                "trims/items/boots"
+                        ))
+                        .withTextures(null)
+        ));
+        return jsonParser.toReader(atlas);
     }
 }
