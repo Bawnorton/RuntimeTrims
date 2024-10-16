@@ -21,7 +21,7 @@ public final class ShowMeYourSkinTrimRendererAdapter extends TrimRendererAdapter
     public int getAlpha(RenderContext context) {
         return Compat.getShowMeYourSkinCompat()
                 .map(compat -> compat.getAlpha(context.entity(), context.trimmed()))
-                .orElseThrow();
+                .orElse(255);
     }
 
     @Override

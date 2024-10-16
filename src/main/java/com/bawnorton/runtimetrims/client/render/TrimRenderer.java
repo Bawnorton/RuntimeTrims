@@ -170,7 +170,7 @@ public final class TrimRenderer extends ItemAdaptable<TrimRendererAdapter> {
             Identifier layerSpriteId = modelId.withPath(modelId.getPath().replace(assetName, "%d_%s".formatted(i, assetName)));
             Sprite layerSprite = atlasTexture.getSprite(layerSpriteId);
             VertexConsumer vertexConsumer = layerSprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(renderLayer));
-            int colour = paletteColours.get(i) | alpha << 24;
+            int colour = ARGBColourHelper.withAlpha(paletteColours.get(i), alpha);
             adapter.render(context, matrices, vertexConsumer, light, overlay, colour, callback);
         }
     }
