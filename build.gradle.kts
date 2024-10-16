@@ -26,6 +26,8 @@ repositories {
     maven("https://maven.shedaniel.me")
     maven("https://jitpack.io")
     maven("https://api.modrinth.com/maven")
+    maven("https://maven.ladysnake.org/releases")
+    maven("https://cursemaven.com")
 }
 
 dependencies {
@@ -33,6 +35,7 @@ dependencies {
 
     modImplementation("dev.isxander:yet-another-config-lib:${property("yacl")}+$minecraftVersion-$loader")
     annotationProcessor(modImplementation("com.bawnorton.configurable:configurable-$loader-yarn:${property("configurable")}") { isTransitive = false })
+    modImplementation("com.bawnorton.allthetrims:allthetrims-$loader:${property("allthetrims")}+$minecraftVersion") { isTransitive = false }
 
     modImplementation("maven.modrinth:iris:${property("iris")}")
     modImplementation("maven.modrinth:sodium:${property("sodium")}")
@@ -132,6 +135,10 @@ loader.fabric {
         modImplementation("com.terraformersmc:modmenu:${property("mod_menu")}")
 
         modCompileOnly("maven.modrinth:show-me-your-skin:${property("show_me_your_skin")}")
+        modRuntimeOnly("maven.modrinth:cicada:${property("cicada")}")
+        modRuntimeOnly("org.ladysnake.cardinal-components-api:cardinal-components-base:${property("cca")}")
+        modRuntimeOnly("org.ladysnake.cardinal-components-api:cardinal-components-entity:${property("cca")}")
+
         modCompileOnly("maven.modrinth:female-gender:${property("wildfire_gender")}")
         modCompileOnly("maven.modrinth:bclib:${property("bclib")}")
     }

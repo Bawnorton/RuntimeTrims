@@ -121,11 +121,13 @@ public final class TrimRenderer extends ItemAdaptable<TrimRendererAdapter> {
             throw new IllegalStateException("Trim shader context not available");
         }
 
+        colour = ARGBColourHelper.withAlpha(colour, getTrimAlpha(context));
+
         if (useLegacyRenderer(sprite)) {
             if(!(isSpriteDynamic(sprite) || RuntimeTrimsClient.overrideExisting)) {
                 callback.render(matrices, sprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(getLegacyRenderLayer(context.trimmed(), trim))), light, overlay, colour);
             } else {
-                legacyRenderTrim(context, trim, matrices, vertexConsumers, light, overlay, colour, modelId, atlasTexture, renderLayer, callback);
+                legacyRenderTrim(context, trim, matrices, vertexConsumers, light, overlay, modelId, atlasTexture, renderLayer, callback);
             }
         } else if (isSpriteDynamic(sprite)) {
             shaderRenderTrim(context, trim, sprite, matrices, vertexConsumers, light, overlay, colour, renderLayer, callback);
@@ -142,11 +144,10 @@ public final class TrimRenderer extends ItemAdaptable<TrimRendererAdapter> {
             renderLayer = RuntimeTrimsClient.getShaderManager().getTrimRenderLayer(trimmed, palette);
         }
         VertexConsumer vertices = sprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(renderLayer));
-        colour = ARGBColourHelper.withAlpha(colour, getTrimAlpha(context));
         getAdapter(trimmed).render(context, matrices, vertices, light, overlay, colour, callback);
     }
 
-    public void legacyRenderTrim(RenderContext context, ArmorTrim trim, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, int colour, Identifier modelId, SpriteAtlasTexture atlasTexture, RenderLayer renderLayer, RenderCallback callback) {
+    public void legacyRenderTrim(RenderContext context, ArmorTrim trim, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, Identifier modelId, SpriteAtlasTexture atlasTexture, RenderLayer renderLayer, RenderCallback callback) {
         if(modelId.equals(MissingSprite.getMissingSpriteId())) return;
 
         ArmorTrimMaterial trimMaterial = trim.getMaterial().value();
@@ -169,7 +170,7 @@ public final class TrimRenderer extends ItemAdaptable<TrimRendererAdapter> {
             Identifier layerSpriteId = modelId.withPath(modelId.getPath().replace(assetName, "%d_%s".formatted(i, assetName)));
             Sprite layerSprite = atlasTexture.getSprite(layerSpriteId);
             VertexConsumer vertexConsumer = layerSprite.getTextureSpecificVertexConsumer(vertexConsumers.getBuffer(renderLayer));
-            colour = paletteColours.get(i) | alpha << 24;
+            int colour = paletteColours.get(i) | alpha << 24;
             adapter.render(context, matrices, vertexConsumer, light, overlay, colour, callback);
         }
     }

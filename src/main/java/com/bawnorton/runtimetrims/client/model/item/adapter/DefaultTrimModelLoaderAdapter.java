@@ -8,6 +8,7 @@ import com.bawnorton.runtimetrims.client.model.item.TrimmableResource;
 import com.bawnorton.runtimetrims.client.model.item.json.ModelOverride;
 import com.bawnorton.runtimetrims.client.model.item.json.TrimmableItemModel;
 import net.minecraft.item.AnimalArmorItem;
+import net.minecraft.item.ElytraItem;
 import net.minecraft.item.Equipment;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
@@ -17,7 +18,7 @@ import java.util.function.BiFunction;
 public class DefaultTrimModelLoaderAdapter extends TrimModelLoaderAdapter {
     @Override
     public boolean canTrim(Item item) {
-        return item instanceof Equipment equipment && !(equipment instanceof AnimalArmorItem) && equipment.getSlotType().isArmorSlot();
+        return item instanceof Equipment equipment && !(equipment instanceof AnimalArmorItem || equipment instanceof ElytraItem) && equipment.getSlotType().isArmorSlot();
     }
 
     @Override
