@@ -7,3 +7,5 @@ A library mod that by itself doesn't do anything, however, it allows other mods 
 at runtime allowing for the trim item and armour models to be generated at runtime.
 See [DynamicTrim](https://github.com/Bawnorton/Dynamic-Trim) and [AllTheTrims](https://github.com/Bawnorton/AllTheTrims)
 for implementations
+
+![](https://i.imgur.com/GxumAxP.png)
