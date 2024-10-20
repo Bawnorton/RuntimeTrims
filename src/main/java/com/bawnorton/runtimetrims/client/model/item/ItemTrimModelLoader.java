@@ -20,6 +20,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -129,18 +130,25 @@ public final class ItemTrimModelLoader extends ItemAdaptable<TrimModelLoaderAdap
     }
 
     public BufferedReader addGroupPermutationsToAtlasSources(BufferedReader original) {
-        BlockAtlas atlas = jsonParser.fromReader(original, BlockAtlas.class);
-        atlas.getPalettedPermutationsSource("trims/color_palettes/trim_palette").ifPresent(source -> atlas.addSource(
-                source.copy()
-                        .withType("runtimetrims:group_permutations")
-                        .withDirectories(List.of(
-                                "trims/items/helmet",
-                                "trims/items/chestplate",
-                                "trims/items/leggings",
-                                "trims/items/boots"
-                        ))
-                        .withTextures(null)
-        ));
+        JsonObject atlasJson = jsonParser.fromReader(original, JsonObject.class);
+        BlockAtlas atlas = jsonParser.fromJson(atlasJson, BlockAtlas.class);
+        Optional<BlockAtlas.Source> palettedPermuationsSource = atlas.getPalettedPermutationsSource("trims/color_palettes/trim_palette");
+        if (palettedPermuationsSource.isEmpty()) {
+            return jsonParser.toReader(atlasJson);
+        }
+
+        atlas.addSource(palettedPermuationsSource.get()
+                .copy()
+                .withType("runtimetrims:group_permutations")
+                .withDirectories(List.of(
+                        "trims/items/helmet",
+                        "trims/items/chestplate",
+                        "trims/items/leggings",
+                        "trims/items/boots"
+                ))
+                .withTextures(null)
+        );
+
         return jsonParser.toReader(atlas);
     }
 }

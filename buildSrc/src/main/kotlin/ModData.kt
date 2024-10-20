@@ -7,7 +7,7 @@ class ModData(project: Project) {
     val version = project.property("mod_version").toString()
     val group = project.property("mod_group").toString()
     val minecraftDependency = project.property("minecraft_dependency").toString()
-    val supportedVersions = project.property("supported_versions").toString()
+    val supportedVersions = project.property("supported_versions").toString().split(",").map { it.trim() }
     val modrinthProjId = project.property("modrinth_project_id").toString()
     val curseforgeProjId = project.property("curseforge_project_id").toString()
 }

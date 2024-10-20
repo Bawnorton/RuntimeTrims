@@ -35,8 +35,12 @@ public final class JsonParser {
         return GSON.fromJson(json, clazz);
     }
 
-    public <T> T fromReader(Reader original, Class<T> blockAtlasClass) {
-        return GSON.fromJson(original, blockAtlasClass);
+    public <T> T fromReader(Reader original, Class<T> clazz) {
+        return GSON.fromJson(original, clazz);
+    }
+
+    public <T> T fromJson(JsonObject json, Class<T> clazz) {
+        return GSON.fromJson(json, clazz);
     }
 
     public Resource toResource(ResourcePack resourcePack, Object object) {
