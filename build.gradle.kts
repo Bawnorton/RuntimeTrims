@@ -33,9 +33,9 @@ repositories {
 dependencies {
     minecraft("com.mojang:minecraft:$minecraftVersion")
 
-    modImplementation("dev.isxander:yet-another-config-lib:${property("yacl")}+$minecraftVersion-$loader")
+    modImplementation("dev.isxander:yet-another-config-lib:${property("yacl")}-$loader")
     annotationProcessor(modImplementation("com.bawnorton.configurable:configurable-$loader-yarn:${property("configurable")}") { isTransitive = false })
-    modImplementation("com.bawnorton.allthetrims:allthetrims-$loader:${property("allthetrims")}+$minecraftVersion") { isTransitive = false }
+    modImplementation("com.bawnorton.allthetrims:allthetrims-$loader:${property("allthetrims")}") { isTransitive = false }
 
     modImplementation("maven.modrinth:iris:${property("iris")}")
     modImplementation("maven.modrinth:sodium:${property("sodium")}")

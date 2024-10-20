@@ -37,7 +37,7 @@ public abstract class MinecraftClientMixin {
         TrimPalettes trimPalettes = RuntimeTrimsClient.getTrimPalettes();
         LayerData layerData = RuntimeTrimsClient.getLayerData();
         //? if fabric {
-        IdList<ItemColorProvider> providers = new IdList<>();
+        /*IdList<ItemColorProvider> providers = new IdList<>();
         IdList<ItemColorProvider> existingProviders = ((ItemColorsAccessor) original).getProviders();
         Registries.ITEM.stream()
                 .forEach(item -> {
@@ -46,8 +46,8 @@ public abstract class MinecraftClientMixin {
                     providers.set(existingProvider, rawId);
                 });
         ItemTrimColourProvider colourRenderer = new ItemTrimColourProvider(trimPalettes, layerData, providers);
-        //?} elif neoforge {
-        /*Map<Item, ItemColorProvider> providers = new HashMap<>();
+        *///?} elif neoforge {
+        Map<Item, ItemColorProvider> providers = new HashMap<>();
         Map<Item, ItemColorProvider> existingProviders = ((ItemColorsAccessor) original).getProviders();
         Registries.ITEM.stream()
                 .forEach(item -> {
@@ -55,7 +55,7 @@ public abstract class MinecraftClientMixin {
                     providers.put(item, existingProvider);
                 });
         ItemTrimColourProvider colourRenderer = new ItemTrimColourProvider(trimPalettes, layerData, providers);
-        *///?}
+        //?}
         original.register(colourRenderer, colourRenderer.getApplicableItems());
         return original;
     }
