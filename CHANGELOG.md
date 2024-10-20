@@ -1,3 +1,7 @@
+# 1.0.3
+
+- Fix configurable missing from build 
+
 # 1.0.2
 
 - Support neoforge 1.21.1
