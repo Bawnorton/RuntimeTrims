@@ -43,17 +43,17 @@ public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extend
 
     @Inject(
             //? if >1.21 && neoforge {
-            method = "renderArmorPiece",
-            //?} else {
-            /*method = "renderArmor",
-            *///?}
+            /*method = "renderArmorPiece",
+            *///?} else {
+            method = "renderArmor",
+            //?}
             at = @At(
                     value = "INVOKE",
                     //? if fabric {
-                    /*target = "Lnet/minecraft/client/render/entity/feature/ArmorFeatureRenderer;renderTrim(Lnet/minecraft/registry/entry/RegistryEntry;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/item/trim/ArmorTrim;Lnet/minecraft/client/render/entity/model/BipedEntityModel;Z)V"
-                    *///?} elif neoforge {
-                    target = "Lnet/minecraft/client/render/entity/feature/ArmorFeatureRenderer;renderTrim(Lnet/minecraft/registry/entry/RegistryEntry;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/item/trim/ArmorTrim;Lnet/minecraft/client/model/Model;Z)V"
-                    //?}
+                    target = "Lnet/minecraft/client/render/entity/feature/ArmorFeatureRenderer;renderTrim(Lnet/minecraft/registry/entry/RegistryEntry;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/item/trim/ArmorTrim;Lnet/minecraft/client/render/entity/model/BipedEntityModel;Z)V"
+                    //?} elif neoforge {
+                    /*target = "Lnet/minecraft/client/render/entity/feature/ArmorFeatureRenderer;renderTrim(Lnet/minecraft/registry/entry/RegistryEntry;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/item/trim/ArmorTrim;Lnet/minecraft/client/model/Model;Z)V"
+                    *///?}
             )
     )
     private void captureContext(CallbackInfo ci, @Local(argsOnly = true) T entity, @Local ArmorItem trimmed) {
@@ -62,10 +62,10 @@ public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extend
 
     @ModifyExpressionValue(
             //? if fabric {
-            /*method = "renderTrim",
-            *///?} elif neoforge {
-            method = "renderTrim(Lnet/minecraft/registry/entry/RegistryEntry;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/item/trim/ArmorTrim;Lnet/minecraft/client/model/Model;Z)V",
-            //?}
+            method = "renderTrim",
+            //?} elif neoforge {
+            /*method = "renderTrim(Lnet/minecraft/registry/entry/RegistryEntry;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/item/trim/ArmorTrim;Lnet/minecraft/client/model/Model;Z)V",
+            *///?}
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/client/texture/SpriteAtlasTexture;getSprite(Lnet/minecraft/util/Identifier;)Lnet/minecraft/client/texture/Sprite;"
@@ -78,22 +78,22 @@ public abstract class ArmorFeatureRendererMixin<T extends LivingEntity, M extend
 
     @WrapOperation(
     //? if fabric {
-            /*method = "renderTrim",
+            method = "renderTrim",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/client/render/entity/model/BipedEntityModel;render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;II)V"
             )
     )
     private void renderDynamicTrim(BipedEntityModel<T> instance, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, int uv, Operation<Void> original,
-    *///?} elif neoforge {
-            method = "renderTrim(Lnet/minecraft/registry/entry/RegistryEntry;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/item/trim/ArmorTrim;Lnet/minecraft/client/model/Model;Z)V",
+    //?} elif neoforge {
+            /*method = "renderTrim(Lnet/minecraft/registry/entry/RegistryEntry;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/item/trim/ArmorTrim;Lnet/minecraft/client/model/Model;Z)V",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/client/model/Model;render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;II)V"
             )
     )
     private void renderDynamicTrim(Model instance, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, int uv, Operation<Void> original,
-    //?}
+    *///?}
             @Local(argsOnly = true) ArmorTrim trim,
             @Local(argsOnly = true) VertexConsumerProvider vertexConsumers,
             @Local(argsOnly = true) /*$ armour_material >>*/ RegistryEntry<ArmorMaterial> armourMaterial,

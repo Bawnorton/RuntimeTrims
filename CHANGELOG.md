@@ -1,3 +1,7 @@
+# 1.0.5
+
+- Specify that config should only load on the client
+
 # 1.0.3
 
 - Fix configurable missing from build 

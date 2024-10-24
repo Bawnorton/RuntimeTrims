@@ -21,6 +21,9 @@
     ],
     "client": [
       "com.bawnorton.runtimetrims.client.platform.RuntimeTrimsClientWrapper"
+    ],
+    "configurable": [
+      "com.bawnorton.runtimetrims.client.compat.configurable.RuntimeTrimsConfigurableApiImpl"
     ]
   },
   "accessWidener": "${aw}",
