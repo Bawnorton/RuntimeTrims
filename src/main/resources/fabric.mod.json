@@ -40,7 +40,7 @@
     "minecraft": "${minecraft_dependency}",
     "java": ">=21",
     "fabric-api": "*",
-    "configurable": ">=2.0.3"
+    "configurable": ">=2.2.0"
   },
   "custom": {
     "modmenu": {
