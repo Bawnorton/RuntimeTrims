@@ -1,7 +1,7 @@
 package com.bawnorton.runtimetrims.mixin.compat.fabric.wildfiregender;
 
 //? if fabric {
-import com.bawnorton.runtimetrims.RuntimeTrims;
+/*import com.bawnorton.runtimetrims.RuntimeTrims;
 import com.bawnorton.runtimetrims.client.RuntimeTrimsClient;
 import com.bawnorton.runtimetrims.client.render.TrimRenderer;
 import com.bawnorton.runtimetrims.util.mixin.ConditionalMixin;
@@ -101,4 +101,4 @@ public abstract class GenderArmorLayerMixin<T extends LivingEntity, M extends Bi
         }
     }
 }
-//?}
+*///?}

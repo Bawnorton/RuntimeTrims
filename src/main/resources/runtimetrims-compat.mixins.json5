@@ -3,12 +3,12 @@
   "package": "com.bawnorton.runtimetrims.mixin.compat",
   "plugin": "com.bawnorton.runtimetrims.mixin.compat.RuntimeTrimsCompatMixinPlugin",
   "minVersion": "0.8",
-  "mixins": [
+  "client": [
     "modernfix.BakedModelManagerMixinSquared",
     //? if fabric {
-    "fabric.bclib.CustomModelBakeryMixin",
+    /*"fabric.bclib.CustomModelBakeryMixin",
     "fabric.wildfiregender.GenderArmorLayerMixin"
-    //?}
+    *///?}
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,3 +1,7 @@
+# 1.0.6
+
+- Fix client side mixin sometimes applying on dedicated servers
+
 # 1.0.5
 
 - Specify that config should only load on the client

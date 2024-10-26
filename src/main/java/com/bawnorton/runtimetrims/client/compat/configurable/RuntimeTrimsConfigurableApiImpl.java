@@ -15,9 +15,9 @@ public class RuntimeTrimsConfigurableApiImpl implements ConfigurableApi {
     }
 
     //? if neoforge {
-    /*@Override
+    @Override
     public String getConfigName() {
         return RuntimeTrims.MOD_ID;
     }
-    *///?}
+    //?}
 }

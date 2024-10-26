@@ -20,6 +20,7 @@ group = mod.group
 base.archivesName.set(mod.name)
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven("https://maven.neoforged.net/releases/")
     maven("https://maven.bawnorton.com/releases/")
